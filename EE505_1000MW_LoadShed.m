@@ -59,6 +59,12 @@ hold on;
 fplot (f1,[t1 t2], 'r');
 fplot (f2,[t2 60], 'm');
 grid on;
+% Display the marker coordinates with an offset
+Doffset_x = 20.0; % Offset for x-coordinate
+Doffset_y = 0.5; % Offset for y-coordinate
+text(t2 + Doffset_x, UFLSblock2nd + Doffset_y, ...
+    sprintf('Proposed 1000MW Load Shed Settings: \n2.5%% @ 49.0 Hz,\n5.8333%% @ 48.8 Hz'), ...
+    'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'left');
 % Plot the marker at the calculated time
 plot(t1, UFLSblock1st, 'x', 'MarkerSize', 10, 'DisplayName', 'Point');
 plot(t2, UFLSblock2nd, 'x', 'MarkerSize', 10, 'DisplayName', 'Point');
