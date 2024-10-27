@@ -21,7 +21,7 @@ ylabel('Frequency (Hz)');  % Label for the vertical axis
 title('Frequency Change due to Generation Loss');
 
 % Frequency Change due to 1st stage Load Shedding
-UFLSblock1st = 49
+UFLSblock1st = 49;
 LoadShedPercent1st = 2.5
 LoadShed1st = LoadShedPercent1st / 100;
 dPl1 = -1*(LoadShed1st .* SystemDemand) / PerUnitBase;
@@ -77,13 +77,41 @@ f2_inter=50 .* (1 + (dPm / Dt2) .* (1 - exp((-Dt2 * (t2_inter)) / (2 * H))) + (-
 t3 = interp1(f2_inter, t2_inter, target_frequency2, 'linear', 'extrap')
 f3 =@(t) 50 .* (1 + (dPm / Dt3) .* (1 - exp((-Dt3 * (t)) / (2 * H))) + (-1*dPl1 / Dt3) .* (1 - exp((-Dt3 * (t - t1)) / (2 * H))) + (-1*dPl2 / Dt3) .* (1 - exp((-Dt3 * (t - t2)) / (2 * H))) + (-1*dPl3 / Dt3) .* (1 - exp((-Dt3 * (t - t3)) / (2 * H))));
 figure;
-fplot (fgl,[0 t1], 'b');
+fplot (fgl,[0 t1], 'black');
 grid on;
 hold on;
-fplot (f1,[t1 t2],'b');
+fplot (f1,[t1 t2],'g');
 fplot (f2,[t2 t3],'r');
 fplot (f3,[t3 60],'b');
-hold off;
+% Plot the marker at the calculated time
+plot(t1, UFLSblock1st, 'x', 'MarkerSize', 10, 'DisplayName', 'Point');
+plot(t2, UFLSblock2nd, 'x', 'MarkerSize', 10, 'DisplayName', 'Point');
+plot(t3, UFLSblock3rd, 'x', 'MarkerSize', 10, 'DisplayName', 'Point');
+
+% Extend vertical and horizontal dashed lines
+% line([t1 t1], ylim, 'Color', 'k', 'LineStyle', '--'); % Vertical line
+line(xlim, [UFLSblock1st UFLSblock1st], 'Color', 'k', 'LineStyle', '--'); % Horizontal line
+line(xlim, [UFLSblock2nd UFLSblock2nd], 'Color', 'k', 'LineStyle', '--'); % Horizontal line
+line(xlim, [UFLSblock3rd UFLSblock3rd], 'Color', 'k', 'LineStyle', '--'); % Horizontal line
+% Display the marker coordinates with an offset
+Aoffset_x = 0.2; % Offset for x-coordinate
+Aoffset_y = 0.02; % Offset for y-coordinate
+text(t1 + Aoffset_x, UFLSblock1st + Aoffset_y, ...
+    sprintf(' (%.4f, %.4f)', t1, UFLSblock1st), ...
+    'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'left');
+% Display the marker coordinates with an offset
+Boffset_x = 0.2; % Offset for x-coordinate
+Boffset_y = 0.02; % Offset for y-coordinate
+text(t2 + Boffset_x, UFLSblock2nd + Boffset_y, ...
+    sprintf(' (%.4f, %.4f)', t2, UFLSblock2nd), ...
+    'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'left');
+% Display the marker coordinates with an offset
+Coffset_x = 0.2; % Offset for x-coordinate
+Coffset_y = 0.02; % Offset for y-coordinate
+text(t3 + Coffset_x, UFLSblock3rd + Coffset_y, ...
+    sprintf(' (%.4f, %.4f)', t3, UFLSblock3rd), ...
+    'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'left');
+
 xticklabels({'0', '10', '20', '30', '40', '50', '60'});
 xlabel('Time (s)');  % Label for the horizontal axis
 ylabel('Frequency (Hz)');  % Label for the vertical axis
