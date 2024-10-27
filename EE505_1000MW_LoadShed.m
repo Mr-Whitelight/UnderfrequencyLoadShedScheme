@@ -59,7 +59,9 @@ hold on;
 fplot (f1,[t1 t2], 'r');
 fplot (f2,[t2 60], 'm');
 grid on;
-
+% Plot the marker at the calculated time
+plot(t1, UFLSblock1st, 'x', 'MarkerSize', 10, 'DisplayName', 'Point');
+plot(t2, UFLSblock2nd, 'x', 'MarkerSize', 10, 'DisplayName', 'Point');
 % Extend vertical and horizontal dashed lines
 % line([t1 t1], ylim, 'Color', 'k', 'LineStyle', '--'); % Vertical line
 line(xlim, [UFLSblock1st UFLSblock1st], 'Color', 'k', 'LineStyle', '--'); % Horizontal line
